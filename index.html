@@ -24,7 +24,7 @@
 
     <!-- Event snippet for نقرة صادرة إلى الخارج conversion page (الكود القديم مع ID محدث) -->
     <script>
-    function gtag_report_conversion(url) {
+    function gtag_report_conversion_old(url) {
       var callback = function () {
         if (typeof(url) != 'undefined') {
           window.location = url;
@@ -34,6 +34,36 @@
           'send_to': 'AW-10874375080/7yaYCJCwmLscEKiXp8Eo',
           'event_callback': callback
       });
+      return false;
+    }
+    </script>
+
+    <!-- Event snippet for نقرة صادرة إلى الخارج (1) conversion page (الكود الجديد المضاف) -->
+    <script>
+    function gtag_report_conversion_new(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-18228833407/2kQ2CMip48ccEP_Yl_RD',
+          'event_callback': callback
+      });
+      return false;
+    }
+    </script>
+
+    <!-- الدالة الموحدة لتتبع جميع النقرات (تدعم المعرفين القديم والجديد) -->
+    <script>
+    function gtag_report_conversion(url) {
+      // تشغيل كلا الحدثين لضمان التتبع على كلا المعرفين
+      if (typeof gtag_report_conversion_old === 'function') {
+        gtag_report_conversion_old(url);
+      }
+      if (typeof gtag_report_conversion_new === 'function') {
+        gtag_report_conversion_new(url);
+      }
       return false;
     }
     </script>
